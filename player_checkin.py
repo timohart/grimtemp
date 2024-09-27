@@ -9,8 +9,8 @@ def connect_to_mysql():
         return mysql.connector.connect(
             host='localhost',  # Replace with your MySQL host
             database='larp_db',  # Replace with your database name
-            user='your_username',  # Replace with your MySQL username
-            password='your_password'  # Replace with your MySQL password
+            user='root',  # Replace with your MySQL username
+            password='HellBorn'  # Replace with your MySQL password
         )
     except mysql.connector.Error as e:
         messagebox.showerror("Database Error", f"Error: {e}")

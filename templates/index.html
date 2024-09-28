@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player Management</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .flash {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            background-color: #e7f3fe;
+            color: #31708f;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 200px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 7px 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Player Management</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Player List Table -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Player Name</th>
+            <th>Character Name</th>
+            <th>Gold</th>
+            <th>Silver</th>
+            <th>Copper</th>
+            <th>Items</th>
+            <th>Check-In Time</th>
+            <th>Check-Out Time</th>
+            <th>Actions</th>
+        </tr>
+        {% for player in players %}
+        <tr>
+            <td>{{ player[0] }}</td>
+            <td>{{ player[1] }}</td>
+            <td>{{ player[2] }}</td>
+            <td>{{ player[3] }}</td>
+            <td>{{ player[4] }}</td>
+            <td>{{ player[5] }}</td>
+            <td>{{ player[6] if player[6] else "None" }}</td>
+            <td>{{ player[7].strftime('%Y-%m-%d %H:%M:%S') if player[7] else "Not Checked In" }}</td>
+            <td>{{ player[8].strftime('%Y-%m-%d %H:%M:%S') if player[8] else "Not Checked Out" }}</td>
+            <td>
+                <a href="{{ url_for('checkin_player', id=player[0]) }}">Check In</a> |
+                <a href="{{ url_for('checkout_player', id=player[0]) }}">Check Out</a> |
+                <a href="{{ url_for('delete_player', id=player[0]) }}" onclick="return confirm('Are you sure you want to delete this player?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Add Player Form -->
+    <h2>Add Player</h2>
+    <form action="{{ url_for('add_player') }}" method="POST">
+        <label for="player_name">Player Name:</label>
+        <input type="text" id="player_name" name="player_name" required><br>
+
+        <label for="character_name">Character Name:</label>
+        <input type="text" id="character_name" name="character_name" required><br>
+
+        <label for="gold">Gold:</label>
+        <input type="number" id="gold" name="gold" min="0" required><br>
+
+        <label for="silver">Silver:</label>
+        <input type="number" id="silver" name="silver" min="0" required><br>
+
+        <label for="copper">Copper:</label>
+        <input type="number" id="copper" name="copper" min="0" required><br>
+
+        <label for="items">Items (comma separated):</label>
+        <input type="text" id="items" name="items"><br>
+
+        <input type="submit" value="Add Player">
+    </form>
+</body>
+</html>

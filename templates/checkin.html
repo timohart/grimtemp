@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check In Player</title>
+    <style>
+        form {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+            margin-right: 10px;
+            vertical-align: top;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 200px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 200px;
+            height: 60px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"], a {
+            padding: 7px 15px;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        a {
+            background-color: #f44336;
+        }
+
+        input[type="submit"]:hover, a:hover {
+            opacity: 0.8;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Check In Player: {{ player[1] }} ({{ player[2] }})</h2>
+    <form action="{{ url_for('checkin_player', id=player[0]) }}" method="POST">
+        <label for="gold">Gold:</label>
+        <input type="number" id="gold" name="gold" min="0" value="{{ player[3] }}" required><br>
+
+        <label for="silver">Silver:</label>
+        <input type="number" id="silver" name="silver" min="0" value="{{ player[4] }}" required><br>
+
+        <label for="copper">Copper:</label>
+        <input type="number" id="copper" name="copper" min="0" value="{{ player[5] }}" required><br>
+
+        <label for="items">Items (comma separated):</label>
+        <input type="text" id="items" name="items" value="{{ player[6] }}"><br>
+
+        <div style="text-align: center;">
+            <input type="submit" value="Check In">
+            <a href="{{ url_for('index') }}">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>
